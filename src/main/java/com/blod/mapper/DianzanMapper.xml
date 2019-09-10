@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blod.mapper.DianzanMapper" >
+  <resultMap id="BaseResultMap" type="com.blod.entity.Dianzan" >
+    <id column="ck_id" property="ckId" jdbcType="INTEGER" />
+    <result column="ck_art_id" property="ckArtId" jdbcType="VARCHAR" />
+    <result column="ck_ip" property="ckIp" jdbcType="VARCHAR" />
+    <result column="ck_time" property="ckTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ck_id, ck_art_id, ck_ip, ck_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.blod.entity.DianzanExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dianzan
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from dianzan
+    where ck_id = #{ckId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from dianzan
+    where ck_id = #{ckId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.blod.entity.DianzanExample" >
+    delete from dianzan
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.blod.entity.Dianzan" >
+    insert into dianzan (ck_id, ck_art_id, ck_ip, 
+      ck_time)
+    values (#{ckId,jdbcType=INTEGER}, #{ckArtId,jdbcType=VARCHAR}, #{ckIp,jdbcType=VARCHAR}, 
+      #{ckTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.blod.entity.Dianzan" >
+    insert into dianzan
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ckId != null" >
+        ck_id,
+      </if>
+      <if test="ckArtId != null" >
+        ck_art_id,
+      </if>
+      <if test="ckIp != null" >
+        ck_ip,
+      </if>
+      <if test="ckTime != null" >
+        ck_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ckId != null" >
+        #{ckId,jdbcType=INTEGER},
+      </if>
+      <if test="ckArtId != null" >
+        #{ckArtId,jdbcType=VARCHAR},
+      </if>
+      <if test="ckIp != null" >
+        #{ckIp,jdbcType=VARCHAR},
+      </if>
+      <if test="ckTime != null" >
+        #{ckTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.blod.entity.DianzanExample" resultType="java.lang.Integer" >
+    select count(*) from dianzan
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update dianzan
+    <set >
+      <if test="record.ckId != null" >
+        ck_id = #{record.ckId,jdbcType=INTEGER},
+      </if>
+      <if test="record.ckArtId != null" >
+        ck_art_id = #{record.ckArtId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ckIp != null" >
+        ck_ip = #{record.ckIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ckTime != null" >
+        ck_time = #{record.ckTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update dianzan
+    set ck_id = #{record.ckId,jdbcType=INTEGER},
+      ck_art_id = #{record.ckArtId,jdbcType=VARCHAR},
+      ck_ip = #{record.ckIp,jdbcType=VARCHAR},
+      ck_time = #{record.ckTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.blod.entity.Dianzan" >
+    update dianzan
+    <set >
+      <if test="ckArtId != null" >
+        ck_art_id = #{ckArtId,jdbcType=VARCHAR},
+      </if>
+      <if test="ckIp != null" >
+        ck_ip = #{ckIp,jdbcType=VARCHAR},
+      </if>
+      <if test="ckTime != null" >
+        ck_time = #{ckTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ck_id = #{ckId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.blod.entity.Dianzan" >
+    update dianzan
+    set ck_art_id = #{ckArtId,jdbcType=VARCHAR},
+      ck_ip = #{ckIp,jdbcType=VARCHAR},
+      ck_time = #{ckTime,jdbcType=TIMESTAMP}
+    where ck_id = #{ckId,jdbcType=INTEGER}
+  </update>
+</mapper>

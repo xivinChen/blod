@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blod.mapper.CritiqueMapper" >
+  <resultMap id="BaseResultMap" type="com.blod.entity.Critique" >
+    <id column="ct_id" property="ctId" jdbcType="INTEGER" />
+    <result column="ct_art_id" property="ctArtId" jdbcType="INTEGER" />
+    <result column="ct_time" property="ctTime" jdbcType="VARCHAR" />
+    <result column="ct_username" property="ctUsername" jdbcType="VARCHAR" />
+    <result column="ct_email" property="ctEmail" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.blod.entity.Critique" extends="BaseResultMap" >
+    <result column="ct_content" property="ctContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ct_id, ct_art_id, ct_time, ct_username, ct_email
+  </sql>
+  <sql id="Blob_Column_List" >
+    ct_content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.blod.entity.CritiqueExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from critique
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.blod.entity.CritiqueExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from critique
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from critique
+    where ct_id = #{ctId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from critique
+    where ct_id = #{ctId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.blod.entity.CritiqueExample" >
+    delete from critique
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.blod.entity.Critique" >
+    insert into critique (ct_id, ct_art_id, ct_time, 
+      ct_username, ct_email, ct_content
+      )
+    values (#{ctId,jdbcType=INTEGER}, #{ctArtId,jdbcType=INTEGER}, #{ctTime,jdbcType=VARCHAR}, 
+      #{ctUsername,jdbcType=VARCHAR}, #{ctEmail,jdbcType=VARCHAR}, #{ctContent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.blod.entity.Critique" >
+    insert into critique
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ctId != null" >
+        ct_id,
+      </if>
+      <if test="ctArtId != null" >
+        ct_art_id,
+      </if>
+      <if test="ctTime != null" >
+        ct_time,
+      </if>
+      <if test="ctUsername != null" >
+        ct_username,
+      </if>
+      <if test="ctEmail != null" >
+        ct_email,
+      </if>
+      <if test="ctContent != null" >
+        ct_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ctId != null" >
+        #{ctId,jdbcType=INTEGER},
+      </if>
+      <if test="ctArtId != null" >
+        #{ctArtId,jdbcType=INTEGER},
+      </if>
+      <if test="ctTime != null" >
+        #{ctTime,jdbcType=VARCHAR},
+      </if>
+      <if test="ctUsername != null" >
+        #{ctUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="ctEmail != null" >
+        #{ctEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="ctContent != null" >
+        #{ctContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.blod.entity.CritiqueExample" resultType="java.lang.Integer" >
+    select count(*) from critique
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update critique
+    <set >
+      <if test="record.ctId != null" >
+        ct_id = #{record.ctId,jdbcType=INTEGER},
+      </if>
+      <if test="record.ctArtId != null" >
+        ct_art_id = #{record.ctArtId,jdbcType=INTEGER},
+      </if>
+      <if test="record.ctTime != null" >
+        ct_time = #{record.ctTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctUsername != null" >
+        ct_username = #{record.ctUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctEmail != null" >
+        ct_email = #{record.ctEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctContent != null" >
+        ct_content = #{record.ctContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update critique
+    set ct_id = #{record.ctId,jdbcType=INTEGER},
+      ct_art_id = #{record.ctArtId,jdbcType=INTEGER},
+      ct_time = #{record.ctTime,jdbcType=VARCHAR},
+      ct_username = #{record.ctUsername,jdbcType=VARCHAR},
+      ct_email = #{record.ctEmail,jdbcType=VARCHAR},
+      ct_content = #{record.ctContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update critique
+    set ct_id = #{record.ctId,jdbcType=INTEGER},
+      ct_art_id = #{record.ctArtId,jdbcType=INTEGER},
+      ct_time = #{record.ctTime,jdbcType=VARCHAR},
+      ct_username = #{record.ctUsername,jdbcType=VARCHAR},
+      ct_email = #{record.ctEmail,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.blod.entity.Critique" >
+    update critique
+    <set >
+      <if test="ctArtId != null" >
+        ct_art_id = #{ctArtId,jdbcType=INTEGER},
+      </if>
+      <if test="ctTime != null" >
+        ct_time = #{ctTime,jdbcType=VARCHAR},
+      </if>
+      <if test="ctUsername != null" >
+        ct_username = #{ctUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="ctEmail != null" >
+        ct_email = #{ctEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="ctContent != null" >
+        ct_content = #{ctContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ct_id = #{ctId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.blod.entity.Critique" >
+    update critique
+    set ct_art_id = #{ctArtId,jdbcType=INTEGER},
+      ct_time = #{ctTime,jdbcType=VARCHAR},
+      ct_username = #{ctUsername,jdbcType=VARCHAR},
+      ct_email = #{ctEmail,jdbcType=VARCHAR},
+      ct_content = #{ctContent,jdbcType=LONGVARCHAR}
+    where ct_id = #{ctId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.blod.entity.Critique" >
+    update critique
+    set ct_art_id = #{ctArtId,jdbcType=INTEGER},
+      ct_time = #{ctTime,jdbcType=VARCHAR},
+      ct_username = #{ctUsername,jdbcType=VARCHAR},
+      ct_email = #{ctEmail,jdbcType=VARCHAR}
+    where ct_id = #{ctId,jdbcType=INTEGER}
+  </update>
+</mapper>

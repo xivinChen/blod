@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blod.mapper.ArticleMapper" >
+  <resultMap id="BaseResultMap" type="com.blod.entity.Article" >
+    <id column="art_id" property="artId" jdbcType="INTEGER" />
+    <result column="art_title" property="artTitle" jdbcType="VARCHAR" />
+    <result column="art_username" property="artUsername" jdbcType="VARCHAR" />
+    <result column="art_date" property="artDate" jdbcType="TIMESTAMP" />
+    <result column="art_readnumber" property="artReadnumber" jdbcType="INTEGER" />
+    <result column="art_dianzan" property="artDianzan" jdbcType="INTEGER" />
+    <result column="art_image" property="artImage" jdbcType="VARCHAR" />
+    <result column="art_ctg_id" property="artCtgId" jdbcType="INTEGER" />
+    <result column="art_desc" property="artDesc" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.blod.entity.Article" extends="BaseResultMap" >
+    <result column="art_content" property="artContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    art_id, art_title, art_username, art_date, art_readnumber, art_dianzan, art_image, 
+    art_ctg_id, art_desc
+  </sql>
+  <sql id="Blob_Column_List" >
+    art_content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.blod.entity.ArticleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from article
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.blod.entity.ArticleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from article
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from article
+    where art_id = #{artId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from article
+    where art_id = #{artId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.blod.entity.ArticleExample" >
+    delete from article
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.blod.entity.Article" >
+    insert into article (art_id, art_title, art_username, 
+      art_date, art_readnumber, art_dianzan, 
+      art_image, art_ctg_id, art_desc, 
+      art_content)
+    values (#{artId,jdbcType=INTEGER}, #{artTitle,jdbcType=VARCHAR}, #{artUsername,jdbcType=VARCHAR}, 
+      #{artDate,jdbcType=TIMESTAMP}, #{artReadnumber,jdbcType=INTEGER}, #{artDianzan,jdbcType=INTEGER}, 
+      #{artImage,jdbcType=VARCHAR}, #{artCtgId,jdbcType=INTEGER}, #{artDesc,jdbcType=VARCHAR}, 
+      #{artContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.blod.entity.Article" >
+    insert into article
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="artId != null" >
+        art_id,
+      </if>
+      <if test="artTitle != null" >
+        art_title,
+      </if>
+      <if test="artUsername != null" >
+        art_username,
+      </if>
+      <if test="artDate != null" >
+        art_date,
+      </if>
+      <if test="artReadnumber != null" >
+        art_readnumber,
+      </if>
+      <if test="artDianzan != null" >
+        art_dianzan,
+      </if>
+      <if test="artImage != null" >
+        art_image,
+      </if>
+      <if test="artCtgId != null" >
+        art_ctg_id,
+      </if>
+      <if test="artDesc != null" >
+        art_desc,
+      </if>
+      <if test="artContent != null" >
+        art_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="artId != null" >
+        #{artId,jdbcType=INTEGER},
+      </if>
+      <if test="artTitle != null" >
+        #{artTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="artUsername != null" >
+        #{artUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="artDate != null" >
+        #{artDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="artReadnumber != null" >
+        #{artReadnumber,jdbcType=INTEGER},
+      </if>
+      <if test="artDianzan != null" >
+        #{artDianzan,jdbcType=INTEGER},
+      </if>
+      <if test="artImage != null" >
+        #{artImage,jdbcType=VARCHAR},
+      </if>
+      <if test="artCtgId != null" >
+        #{artCtgId,jdbcType=INTEGER},
+      </if>
+      <if test="artDesc != null" >
+        #{artDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="artContent != null" >
+        #{artContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.blod.entity.ArticleExample" resultType="java.lang.Integer" >
+    select count(*) from article
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update article
+    <set >
+      <if test="record.artId != null" >
+        art_id = #{record.artId,jdbcType=INTEGER},
+      </if>
+      <if test="record.artTitle != null" >
+        art_title = #{record.artTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.artUsername != null" >
+        art_username = #{record.artUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.artDate != null" >
+        art_date = #{record.artDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.artReadnumber != null" >
+        art_readnumber = #{record.artReadnumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.artDianzan != null" >
+        art_dianzan = #{record.artDianzan,jdbcType=INTEGER},
+      </if>
+      <if test="record.artImage != null" >
+        art_image = #{record.artImage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.artCtgId != null" >
+        art_ctg_id = #{record.artCtgId,jdbcType=INTEGER},
+      </if>
+      <if test="record.artDesc != null" >
+        art_desc = #{record.artDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.artContent != null" >
+        art_content = #{record.artContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update article
+    set art_id = #{record.artId,jdbcType=INTEGER},
+      art_title = #{record.artTitle,jdbcType=VARCHAR},
+      art_username = #{record.artUsername,jdbcType=VARCHAR},
+      art_date = #{record.artDate,jdbcType=TIMESTAMP},
+      art_readnumber = #{record.artReadnumber,jdbcType=INTEGER},
+      art_dianzan = #{record.artDianzan,jdbcType=INTEGER},
+      art_image = #{record.artImage,jdbcType=VARCHAR},
+      art_ctg_id = #{record.artCtgId,jdbcType=INTEGER},
+      art_desc = #{record.artDesc,jdbcType=VARCHAR},
+      art_content = #{record.artContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update article
+    set art_id = #{record.artId,jdbcType=INTEGER},
+      art_title = #{record.artTitle,jdbcType=VARCHAR},
+      art_username = #{record.artUsername,jdbcType=VARCHAR},
+      art_date = #{record.artDate,jdbcType=TIMESTAMP},
+      art_readnumber = #{record.artReadnumber,jdbcType=INTEGER},
+      art_dianzan = #{record.artDianzan,jdbcType=INTEGER},
+      art_image = #{record.artImage,jdbcType=VARCHAR},
+      art_ctg_id = #{record.artCtgId,jdbcType=INTEGER},
+      art_desc = #{record.artDesc,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.blod.entity.Article" >
+    update article
+    <set >
+      <if test="artTitle != null" >
+        art_title = #{artTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="artUsername != null" >
+        art_username = #{artUsername,jdbcType=VARCHAR},
+      </if>
+      <if test="artDate != null" >
+        art_date = #{artDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="artReadnumber != null" >
+        art_readnumber = #{artReadnumber,jdbcType=INTEGER},
+      </if>
+      <if test="artDianzan != null" >
+        art_dianzan = #{artDianzan,jdbcType=INTEGER},
+      </if>
+      <if test="artImage != null" >
+        art_image = #{artImage,jdbcType=VARCHAR},
+      </if>
+      <if test="artCtgId != null" >
+        art_ctg_id = #{artCtgId,jdbcType=INTEGER},
+      </if>
+      <if test="artDesc != null" >
+        art_desc = #{artDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="artContent != null" >
+        art_content = #{artContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where art_id = #{artId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.blod.entity.Article" >
+    update article
+    set art_title = #{artTitle,jdbcType=VARCHAR},
+      art_username = #{artUsername,jdbcType=VARCHAR},
+      art_date = #{artDate,jdbcType=TIMESTAMP},
+      art_readnumber = #{artReadnumber,jdbcType=INTEGER},
+      art_dianzan = #{artDianzan,jdbcType=INTEGER},
+      art_image = #{artImage,jdbcType=VARCHAR},
+      art_ctg_id = #{artCtgId,jdbcType=INTEGER},
+      art_desc = #{artDesc,jdbcType=VARCHAR},
+      art_content = #{artContent,jdbcType=LONGVARCHAR}
+    where art_id = #{artId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.blod.entity.Article" >
+    update article
+    set art_title = #{artTitle,jdbcType=VARCHAR},
+      art_username = #{artUsername,jdbcType=VARCHAR},
+      art_date = #{artDate,jdbcType=TIMESTAMP},
+      art_readnumber = #{artReadnumber,jdbcType=INTEGER},
+      art_dianzan = #{artDianzan,jdbcType=INTEGER},
+      art_image = #{artImage,jdbcType=VARCHAR},
+      art_ctg_id = #{artCtgId,jdbcType=INTEGER},
+      art_desc = #{artDesc,jdbcType=VARCHAR}
+    where art_id = #{artId,jdbcType=INTEGER}
+  </update>
+</mapper>

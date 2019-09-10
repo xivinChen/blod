@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.blod.mapper.ArticlecategoryMapper" >
+  <resultMap id="BaseResultMap" type="com.blod.entity.Articlecategory" >
+    <id column="ctg_id" property="ctgId" jdbcType="INTEGER" />
+    <result column="ctg_name" property="ctgName" jdbcType="VARCHAR" />
+    <result column="ctg_desc" property="ctgDesc" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ctg_id, ctg_name, ctg_desc
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.blod.entity.ArticlecategoryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from articlecategory
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from articlecategory
+    where ctg_id = #{ctgId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from articlecategory
+    where ctg_id = #{ctgId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.blod.entity.ArticlecategoryExample" >
+    delete from articlecategory
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.blod.entity.Articlecategory" >
+    insert into articlecategory (ctg_id, ctg_name, ctg_desc
+      )
+    values (#{ctgId,jdbcType=INTEGER}, #{ctgName,jdbcType=VARCHAR}, #{ctgDesc,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.blod.entity.Articlecategory" >
+    insert into articlecategory
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ctgId != null" >
+        ctg_id,
+      </if>
+      <if test="ctgName != null" >
+        ctg_name,
+      </if>
+      <if test="ctgDesc != null" >
+        ctg_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ctgId != null" >
+        #{ctgId,jdbcType=INTEGER},
+      </if>
+      <if test="ctgName != null" >
+        #{ctgName,jdbcType=VARCHAR},
+      </if>
+      <if test="ctgDesc != null" >
+        #{ctgDesc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.blod.entity.ArticlecategoryExample" resultType="java.lang.Integer" >
+    select count(*) from articlecategory
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update articlecategory
+    <set >
+      <if test="record.ctgId != null" >
+        ctg_id = #{record.ctgId,jdbcType=INTEGER},
+      </if>
+      <if test="record.ctgName != null" >
+        ctg_name = #{record.ctgName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctgDesc != null" >
+        ctg_desc = #{record.ctgDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update articlecategory
+    set ctg_id = #{record.ctgId,jdbcType=INTEGER},
+      ctg_name = #{record.ctgName,jdbcType=VARCHAR},
+      ctg_desc = #{record.ctgDesc,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.blod.entity.Articlecategory" >
+    update articlecategory
+    <set >
+      <if test="ctgName != null" >
+        ctg_name = #{ctgName,jdbcType=VARCHAR},
+      </if>
+      <if test="ctgDesc != null" >
+        ctg_desc = #{ctgDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ctg_id = #{ctgId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.blod.entity.Articlecategory" >
+    update articlecategory
+    set ctg_name = #{ctgName,jdbcType=VARCHAR},
+      ctg_desc = #{ctgDesc,jdbcType=VARCHAR}
+    where ctg_id = #{ctgId,jdbcType=INTEGER}
+  </update>
+</mapper>
